@@ -1,6 +1,7 @@
-from conexao_orm import Base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
+from app.core.conexao_orm import Base
+from app.models.user import User
 
 class Post(Base):
     __tablename__ = 'posts'
@@ -10,10 +11,6 @@ class Post(Base):
     content = Column(String)
     author_id = Column(Integer, ForeignKey('users.id'))
 
-    # Relacionamento com a tabela de usuários
-    author = relationship('User', back_populates='posts')
+    usuario = relationship("User", back_populates="posts")
 
-    def __init__(self, title, content, author):
-        self.title = title
-        self.content = content
-        self.author = author
+User.posts = relationship("Post", back_populates="usuario")
